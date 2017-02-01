@@ -1,0 +1,8 @@
+.first-section
+  = form_tag convert_sql_path do
+    = text_area_tag 'sql[query]', @sql.query, size: '100x20'
+    = submit_tag 'Submit'
+
+.second-section
+  - if @sql.output.present?
+    = @sql.output
