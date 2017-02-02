@@ -21,7 +21,7 @@ module SqlFrom
       protected
 
       def process!(query)
-        query.scan(/from\s(.*?[^,])[\s|;]/).flatten.first.to_s.delete('][')
+        query.scan(/from\s(.*?[^,])[\s|;]/).flatten.first.to_s.delete('][\'\"')
       end
     end
   end

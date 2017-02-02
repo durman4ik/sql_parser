@@ -4,8 +4,8 @@ module SqlWheres
   included do
 
     class self::Wheres
-      attr_accessor :all
-      OP_REGEX = '<|>|<=|>=|=|like|in|between'.freeze
+      attr_accessor :all, :child_conditions
+        OP_REGEX = 'between|<|>|<=|>=|=|like|in'.freeze
 
       class Condition
         attr_accessor :key, :value, :operator
@@ -17,6 +17,10 @@ module SqlWheres
           @value = v
           @operator = o
         end
+
+        def child?
+          @key.eql?('[CHILD]')
+        end
       end
 
       def initialize(sql)
@@ -24,7 +28,27 @@ module SqlWheres
       end
 
       def output
-        binding.pry
+        result = ''
+        @all.map do |c, v|
+          if c == '1'.to_sym
+            result << where_operator_output(v.first)
+          else
+            result << build_where_output(v, c)
+          end
+        end
+
+        return ".where(#{result})"
+      end
+
+      def where_operator_output(v)
+        case v.operator
+        when '='    then "#{v.key}: '#{v.value}'"
+        when '>'    then ":#{v.key} > '#{v.value}'"
+        when '<'    then ":#{v.key} < '#{v.value}'"
+        when '!='   then ":#{v.key} < '#{v.value}'"
+        when 'IN'   then "\"#{v.key} IN (?)\", #{v.value}"
+        when 'LIKE' then "\"#{v.key} LIKE '%?%'\", #{v.value}"
+        end
       end
 
       def present?
@@ -49,13 +73,27 @@ module SqlWheres
         parse_first_level_array(first_level_array)
       end
 
-      def parse_child_conditions(c)
-        hash = {}
-        c.each_with_index do |o, i|
-          hash[i] = { }
-          parse_condition(hash[i], o)
+      private
+
+      def build_child_output(o)
+        tmp = parse_condition({}, self.child_conditions[o])
+        o += 1
+
+        ["(#{tmp.map { |k, v| build_where_output(v, k) }.join})"]
+      end
+
+      def build_where_output(v, c)
+        tmp = []
+        v.map.with_object(0) do |x, o|
+          if x.child?
+            tmp << build_child_output(o)
+          else
+            tmp << where_operator_output(x)
+          end
         end
-        hash
+
+        tmp.first << and_or(c) if tmp.size == 1
+        tmp.join(and_or(c))
       end
 
       def parse_first_level_array(f)
@@ -66,7 +104,6 @@ module SqlWheres
       def parse_condition(hash, o)
         o.each_with_index do |c, n|
           key = get_key(o, n)
-
           if n < o.size && n.next.odd?
             hash[key] = [] if hash[key].blank?
             hash[key] << create_condition(c)
@@ -78,20 +115,23 @@ module SqlWheres
       end
 
       def create_condition(c)
-        if c.eql?('[CHILD]')
-          tmp = [c, parse_child_conditions(@child_conditions)]
-        else
-          tmp = c.gsub(/'|"/, '').partition(/"#{OP_REGEX}"/)
-        end
-        Condition.new(tmp[0], tmp[2], tmp[1])
+        tmp = c.gsub(/'|"|;/, '').partition(/"#{OP_REGEX}"/)
+
+        Condition.new(tmp[0].strip, tmp[2].strip, tmp[1].strip)
       end
 
       def get_key(o, n)
-        if n.next == o.size
+        if o.size == 1
+          '1'.to_sym
+        elsif n.next == o.size
           o[n.pred].to_sym
         elsif n.next < o.size
           o[n.next].to_sym
         end
+      end
+
+      def and_or(v)
+        v == :or ? ' || ' : ' && '
       end
     end
   end

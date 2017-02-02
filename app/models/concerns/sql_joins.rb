@@ -52,6 +52,8 @@ module SqlJoins
       end
 
       def create_join_by_type(join)
+        return unless check_join_completeness(join)
+
         fw = join.first_word
         j =
             case join.first_word
@@ -60,8 +62,14 @@ module SqlJoins
             else return nil
             end
 
-        j.value = join.scan(/join\s(.*?[^,])[\s|;]/).flatten.first.to_s
+        j.value = join.scan(/join\s(.*?[^,])[\s|;]/).flatten.first.to_s.delete('][\'\"')
         j
+      end
+
+      private
+
+      def check_join_completeness(join)
+        join.include?(' on ')
       end
     end
   end

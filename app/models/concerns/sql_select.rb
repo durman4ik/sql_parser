@@ -15,8 +15,9 @@ module SqlSelect
       end
 
       def output
-        vs = value.map { |v| process_string_value(v) }.join(', ')
+        return false if all?
 
+        vs = value.map { |v| process_string_value(v) }.join(', ')
         ".select(#{vs})"
       end
 
@@ -27,7 +28,7 @@ module SqlSelect
       protected
 
       def process!(query)
-        temp = query.scan(/select\s(.*?[^,])[\s|;]/).flatten.first.to_s
+        temp = query.scan(/select\s(.*?[^,])[\s|;]/).flatten.first.to_s.delete('\'\"')
         temp.split(',').map(&:strip)
       end
 

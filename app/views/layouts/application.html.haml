@@ -6,10 +6,16 @@
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
   %body
-    .header
-      = link_to 'Home', root_path, class: 'btn'
-      = link_to 'Html to Haml', html_path, class: 'btn'
-      = link_to 'Js to Coffee', js_path, class: 'btn'
-      = link_to 'Sql to Active Record', sql_path, class: 'btn'
-    .content
-      = yield
+    .navbar.navbar-default
+      .container-fluid
+        .container
+          .nav.navbar-nav
+            .navbar-header
+            %li{ class: active_class?(root_path) }= link_to 'Home', root_path, class: 'btn'
+            %li{ class: active_class?(html_path) }= link_to 'Html to Haml', html_path, class: 'btn'
+            %li{ class: active_class?(js_path) }= link_to 'Js to Coffee', js_path, class: 'btn'
+            %li{ class: active_class?(sql_path) }= link_to 'Sql to Active Record', sql_path, class: 'btn'
+
+    .row
+      .content
+        = yield

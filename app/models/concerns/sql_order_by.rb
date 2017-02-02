@@ -21,7 +21,7 @@ module SqlOrderBy
       def output
         result = @all.map { |el| check_colon(el) }
 
-        ".order_by(#{result.join(', ')})"
+        ".order(#{result.join(', ')})"
       end
 
       def present?
@@ -35,7 +35,7 @@ module SqlOrderBy
                         .scan(/order by\s((?:.*?(?:desc|asc)|(?:.+)(?:asc|desc)[^,]|(?:.*?)[^,]))(?:;)?\s/i)
                         .flatten
                         .first
-                        .to_s
+                        .to_s.delete('][\'\"')
 
         tmp = order_str.split(',').map(&:strip)
         tmp.map { |c| create_new_condition(c) }

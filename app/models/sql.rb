@@ -1,8 +1,10 @@
 class Sql
   include SqlSelect
   include SqlFrom
+  include SqlUpdate
   include SqlJoins
   include SqlWheres
+  include SqlSets
   include SqlOrderBy
   include SqlGroupBy
   include SqlLimit
@@ -10,7 +12,7 @@ class Sql
   include Getters
 
   attr_accessor :sql_method, :query, :query, :output, :error, :group_by, :order_by, :from,
-                :wheres, :limit, :joins, :select
+                :wheres, :limit, :joins, :select, :update, :sets
 
   TYPES = {
       s: 'select',
@@ -28,9 +30,9 @@ class Sql
     @query = query.gsub("\r\n", ' ').strip.downcase
     @error = nil
     @limit = nil
-    @output = ''
-    @wheres = []
-    @joins = []
+    @output   = ''
+    @wheres   = []
+    @joins    = []
     @group_by = []
     @order_by = []
     @sql_method = @query.determine_sql_type
@@ -65,8 +67,39 @@ class Sql
 
   private
 
-  def say_all?
+  def build_select_output
+    @output = ''
+    @output << self.from.output
+    @output << (self.select.output  || say_all?)
+    @output << self.joins.output    if joins.present?
+    @output << self.wheres.output   if wheres.present?
+    @output << self.order_by.output if order_by.present?
+    @output << self.group_by.output if group_by.present?
+    @output << self.limit.output    if limit.present?
+  end
 
+  def build_update_output
+    @output = ''
+    @output << self.update.output
+    @output << self.wheres.output   if wheres.present?
+    @output << self.sets.output     if sets.present?
+  end
+
+  def build_delete_output
+    @output = ''
+    @output << self.from.output
+    @output << self.joins.output    if joins.present?
+    @output << self.wheres.output   if wheres.present?
+    @output << self.order_by.output if order_by.present?
+    @output << self.group_by.output if group_by.present?
+    @output << '.destroy_all'
+  end
+
+  def build_insert_output
+
+  end
+
+  def say_all?
     c = select.all?        &&
         !wheres.present?   &&
         !joins.present?    &&
@@ -77,37 +110,16 @@ class Sql
     c ? '.all' : ''
   end
 
-  def build_select_output
-    @output = ''
-    @output << self.from.output
-    @output << self.select.output   || say_all?
-    @output << self.joins.output    if joins.present?
-    @output << self.wheres.output   if wheres.present?
-    @output << self.order_by.output if order_by.present?
-    @output << self.group_by.output if group_by.present?
-    @output << self.limit.output    if limit.present?
-  end
-
-  def build_update_output
-
-  end
-
-  def build_delete_output
-
-  end
-
-  def build_insert_output
-
-  end
-
   def parse!
-    self.from = Sql::From.new(self)
-    self.select = Sql::Select.new(self)
-    self.limit = Sql::Limit.new(self)
-    self.group_by = Sql::GroupBy.new(self)
-    self.joins = Sql::Joins.new(self)
-    self.wheres = Sql::Wheres.new(self)
-    self.order_by = Sql::OrderBy.new(self)
+    self.from         = Sql::From.new(self)
+    self.update       = Sql::Update.new(self)
+    self.select       = Sql::Select.new(self)
+    self.limit        = Sql::Limit.new(self)
+    self.group_by     = Sql::GroupBy.new(self)
+    self.joins        = Sql::Joins.new(self)
+    self.wheres       = Sql::Wheres.new(self)
+    self.sets         = Sql::Sets.new(self)
+    self.order_by     = Sql::OrderBy.new(self)
     self.build_output
   end
 end

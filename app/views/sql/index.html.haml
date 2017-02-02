@@ -1,8 +1,11 @@
-.first-section
-  = form_tag convert_sql_path do
-    = text_area_tag 'sql[query]', @sql.query, size: '100x20'
-    = submit_tag 'Submit'
+.sql-container
+  .first-section
+    = form_tag convert_sql_path do
+      = text_area_tag 'sql[query]', @sql.query, size: '100x20'
+      .submit-button
+        = submit_tag 'Convert To ActiveRecord', class: 'btn btn-success'
 
-.second-section
-  - if @sql.output.present?
-    = @sql.output
+  .second-section
+    .result-container
+      - if @sql.output.present?
+        = text_area_tag 'sql_result', @sql.output, id: 'sql_result', size: '100x4'

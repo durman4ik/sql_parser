@@ -1,9 +1,9 @@
-module SqlGroupBy
+module SqlUpdate
   extend ActiveSupport::Concern
 
   included do
 
-    class self::GroupBy
+    class self::Update
       attr_accessor :value
 
       def initialize(sql)
@@ -11,9 +11,7 @@ module SqlGroupBy
       end
 
       def output
-        vs = value.map { |v| ":#{v}" }.join(', ')
-
-        ".group(#{vs})"
+        @value.singularize.capitalize
       end
 
       def present?
@@ -23,8 +21,7 @@ module SqlGroupBy
       protected
 
       def process!(query)
-        temp = query.scan(/group by\s(.*?[^,])[\s|;]/).flatten.first.to_s.delete('][\'\"')
-        temp.split(',').map(&:strip)
+        query.scan(/update\s(.*?[^,])[\s|;]/).flatten.first.to_s.delete('][\'\"')
       end
     end
   end
