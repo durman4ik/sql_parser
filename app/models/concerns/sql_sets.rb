@@ -35,16 +35,20 @@ module SqlSets
       protected
 
       def process!(query)
-        args = query.scan(/set((?:.*?=?'.*'|.*=.)(?:[^\s;]*))/i).flatten
-        args.map { |a| create_condition(a) }
+        args_str = query.scan(/set((?:.*?=?'.*'|.*=.)(?:[^\s;]*))/i).flatten.first.to_s.strip
+        create_condition(args_str)
       end
 
       private
 
       def create_condition(a)
-        tmp = a.gsub(/'|"|;/, '').strip.split('=')
+        tmp = a.gsub(/'|"|;/, '').split(',').map(&:strip)
 
-        Condition.new(tmp[0].strip, tmp[1].strip)
+        tmp.map do |t|
+          z = t.split('=')
+
+          Condition.new(z[0].strip, z[1].strip)
+        end.flatten
       end
     end
   end
