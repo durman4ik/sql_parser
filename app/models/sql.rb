@@ -8,11 +8,12 @@ class Sql
   include SqlOrderBy
   include SqlGroupBy
   include SqlLimit
+  include SqlOffset
 
   include Getters
 
   attr_accessor :sql_method, :query, :query, :output, :error, :group_by, :order_by, :from,
-                :wheres, :limit, :joins, :select, :update, :sets
+                :wheres, :limit, :joins, :select, :update, :sets, :offset
 
   TYPES = {
       s: 'select',
@@ -30,6 +31,7 @@ class Sql
     @query = query.gsub("\r\n", ' ').strip.downcase
     @error = nil
     @limit = nil
+    @offset = nil
     @output   = ''
     @wheres   = []
     @joins    = []
@@ -76,6 +78,7 @@ class Sql
     @output << self.order_by.output if order_by.present?
     @output << self.group_by.output if group_by.present?
     @output << self.limit.output    if limit.present?
+    @output << self.offset.output    if offset.present?
   end
 
   def build_update_output
@@ -120,6 +123,7 @@ class Sql
     self.wheres       = Sql::Wheres.new(self)
     self.sets         = Sql::Sets.new(self)
     self.order_by     = Sql::OrderBy.new(self)
+    self.offset       = Sql::Offset.new(self)
     self.build_output
   end
 end

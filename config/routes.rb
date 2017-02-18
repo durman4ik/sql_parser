@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'sql-converter'  => 'sql#index',  as: :sql
 
   post 'sql-converter'  => 'sql#convert',  as: :convert_sql
+  post 'html-converter'  => 'html#create',  as: :convert_html
 
   root 'home#index'
 
