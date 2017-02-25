@@ -11,7 +11,12 @@ class Html
 
   def convert_to_haml
     @output = parse_haml
-    @output.gsub!(' => ', ': ') unless @old_ruby
+
+    unless @old_ruby
+      ar = @output.split(/(:\w*\s=>\s)/)
+      ar.map { |e| e.tr!(':', '') && e.gsub!(' =>', ':') if e.include?(' => ') }
+      @output = ar.join
+    end
   end
 
   private

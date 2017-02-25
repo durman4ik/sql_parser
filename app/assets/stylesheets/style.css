@@ -1,4 +1,4 @@
-.sql-container, .html-container {
+.sql-container, .html-container, .js-container {
     width: 80%;
     margin: auto;
 }

@@ -1,21 +1,24 @@
 !!!
 %html
   %head
-    %title Untitled
+    = metamagic title: 'Help to convert - HelpConvert', description: 'My default description.'
     = csrf_meta_tags
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
   %body
+    #click-protector.click-protector{ style: 'display: none;'}
     .navbar.navbar-default
       .container-fluid
-        .container
-          .nav.navbar-nav
-            .navbar-header
-            %li{ class: active_class?(root_path) }= link_to 'Home', root_path, class: 'btn'
-            %li{ class: active_class?(html_path) }= link_to 'Html to Haml', html_path, class: 'btn'
-            %li{ class: active_class?(js_path) }= link_to 'Js to Coffee', js_path, class: 'btn'
-            %li{ class: active_class?(sql_path) }= link_to 'Sql to Active Record', sql_path, class: 'btn'
+        #sidebar-main
+          %span{onclick: 'openNav()', style: 'font-size:30px;cursor:pointer'} ☰
 
-    .row
-      .content
-        = yield
+    #sidenav.sidenav
+      %a.closebtn{href: 'javascript:void(0)', onclick: 'closeNav()'} &times;
+      %li{ class: active_class?(root_path) }= link_to 'Home', root_path, class: 'btn'
+      %li{ class: active_class?(html_path) }= link_to 'Html to Haml', html_path, class: 'btn'
+      %li{ class: active_class?(coffee_path) }= link_to 'JS to Coffee', coffee_path, class: 'btn'
+      %li{ class: active_class?(yopta_path) }= link_to 'ЁптаScript to JS', yopta_path, class: 'btn'
+      %li{ class: active_class?(sql_path) }= link_to 'Sql to Active Record', sql_path, class: 'btn'
+
+    #main-content.main-content
+      = yield

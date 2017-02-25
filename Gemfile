@@ -21,6 +21,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'devise'
 gem 'haml-rails'
+gem 'metamagic'
 
 group :development, :test do
   gem 'pry-byebug'

@@ -1,6 +1,10 @@
 class JsController < ApplicationController
 
-  def index
+  def coffee
+
+  end
+
+  def yopta
 
   end
 end

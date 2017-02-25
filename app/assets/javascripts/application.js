@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require js2coffee
+//= require epta-scripts.min
+//= require epta_converter
 //= require bootstrap.min
 //= require codemirror
 //= require sql

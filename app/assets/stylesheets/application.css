@@ -17,3 +17,15 @@
  *= require_tree .
  *= require_self
  */
+
+.main-content {
+    transition: margin-left .5s;
+}
+
+.click-protector {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
+}
