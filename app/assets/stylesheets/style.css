@@ -1,4 +1,6 @@
 .sql-container, .html-container, .js-container {
     width: 80%;
+    height: 100%;
     margin: auto;
+    position: relative;
 }

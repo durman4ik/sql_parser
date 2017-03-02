@@ -10,6 +10,10 @@
   transition: 0.5s;
   padding-top: 60px;
 
+  li {
+    list-style: none;
+  }
+
   a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;

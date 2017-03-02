@@ -1,7 +1,8 @@
 .yopta-wrapper
-  .yopta-cover
   .js-container
-    .yopta-section
-      = text_area_tag 'data[yopta]', '', id: 'yopta_query', class: 'yopta-query', placeholder: 'yopta'
     .js-section
-      = text_area_tag 'data[js]', '', id: 'js_query', class: 'js-query', placeholder: 'js'
+      %label JavaScript
+      = text_area_tag 'data[js]', '', id: 'js_query', class: 'js-query'
+    .yopta-section
+      %label Yopta
+      = text_area_tag 'data[yopta]', '', id: 'yopta_query', class: 'yopta-query', placeholder: @yopta.placeholder

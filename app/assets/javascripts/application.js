@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require coffee-script
 //= require js2coffee
 //= require epta-scripts.min
 //= require epta_converter

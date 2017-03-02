@@ -3,17 +3,19 @@ $(document).on('ready', function() {
     var jsContainer = document.getElementById('js_query');
     var yoptaContainer = document.getElementById('yopta_query');
 
-    if (jsContainer) {
-        
+    if (yoptaContainer) {
+
+        convertPlaceholder();
+
         jsContainer.addEventListener('keyup', function() {
-            converter(true);
+            Ys2Jsconverter(true);
         }, false);
 
         yoptaContainer.addEventListener('keyup', function() {
-            converter(false);
+            Ys2Jsconverter(false);
         }, false);
 
-        function converter(lang) {
+        function Ys2Jsconverter(lang) {
             if (lang) {
                 var jstoyopta = jsContainer.value;
                 yoptaContainer.value = yopt.compile(jstoyopta, "js");
@@ -21,6 +23,10 @@ $(document).on('ready', function() {
                 var ystojs = yoptaContainer.value;
                 jsContainer.value = yopt.compile(ystojs, "ys");
             }
+        }
+
+        function convertPlaceholder() {
+            jsContainer.placeholder = yopt.compile(yoptaContainer.placeholder, "ys");
         }
     }
 });
