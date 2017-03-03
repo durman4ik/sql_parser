@@ -11,6 +11,8 @@
       .container-fluid
         #sidebar-main
           %span{onclick: 'openNav()', style: 'font-size:30px;cursor:pointer'} ☰
+        .page-title
+          = @page_title
 
     #sidenav.sidenav
       %a.closebtn{href: 'javascript:void(0)', onclick: 'closeNav()'} &times;
@@ -22,3 +24,8 @@
 
     #main-content.main-content
       = yield
+
+    .YM
+      = render 'common/yandex_metrika'
+
+

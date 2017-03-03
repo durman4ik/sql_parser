@@ -2,6 +2,7 @@ class SqlController < ApplicationController
   before_action :set_sql_string, only: :convert
 
   def index
+    @page_title = 'Sql2ActiveRecord Converter'
     @sql = Sql.new
   end
 

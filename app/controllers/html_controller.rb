@@ -1,6 +1,7 @@
 class HtmlController < ApplicationController
 
   def index
+    @page_title = 'Html2Haml Converter'
     @html = Html.new
   end
 

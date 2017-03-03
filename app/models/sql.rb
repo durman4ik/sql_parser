@@ -41,7 +41,9 @@ class Sql
   end
 
   def process_sql
-    parse!
+    check_semicolon!
+    parse! unless self.error.present?
+    self.validate_select!
   end
 
   def process_migration
@@ -64,6 +66,15 @@ class Sql
     when :d then build_delete_output
     when :u then build_update_output
     when :i then build_insert_output
+    end
+  end
+
+  def validate_select!
+    if self.from.present?
+      self.error = nil
+    else
+      self.error = '# Undefined model name. Please add FROM statement!'
+      self.output = self.error
     end
   end
 
@@ -111,6 +122,15 @@ class Sql
         !limit.present?
 
     c ? '.all' : ''
+  end
+
+  def check_semicolon!
+    if self.query.strip.last.eql?(';')
+      self.error = nil
+    else
+      self.error = '# You missed \';\' at the end!'
+      self.output = self.error
+    end
   end
 
   def parse!

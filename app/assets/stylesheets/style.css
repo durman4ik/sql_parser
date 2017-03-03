@@ -4,3 +4,10 @@
     margin: auto;
     position: relative;
 }
+
+.page-title {
+    font-size: 36px;
+    padding: 10px;
+    float: left;
+    margin-left: 20px;
+}
