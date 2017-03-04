@@ -1,18 +1,31 @@
 .html-container
-  .action-buttons
-    %span.btn.btn-success.html-convert-btn Submit
-  .html-section
-    = form_tag convert_html_path do
-      = text_area_tag 'data[html]', @html.html, id: 'html_query', class: 'html-query', placeholder: 'HTML'
+  = form_tag convert_html_path do
+    .converter-wrapper
+      .action-buttons
+        %span.btn.btn-success.html-convert-btn Submit
+      .html-section
+        = text_area_tag 'data[html]', @html.html, id: 'html_query', class: 'html-query', placeholder: 'HTML'
 
-      .old-ruby-checkbox
-        %label
-          = check_box_tag 'data[old_ruby]', true
-          Ruby 1.9.3 syntax
-  .haml-section
-    .result-container
-      = text_area_tag 'data[haml]', @html.output, id: 'html_result', class: 'haml-query', placeholder: 'HAML'
+      .haml-section
+        .result-container
+          = text_area_tag 'data[haml]', @html.output, id: 'html_result', class: 'haml-query', placeholder: 'HAML'
 
-  .action-buttons
-    %span.btn.btn-success.html-convert-btn Submit
+      .action-buttons
+        %span.btn.btn-success.html-convert-btn Submit
+
+    .options-wrapper
+      .options-title
+        %span Options
+
+      .options-section
+        .old-ruby-checkbox
+          %label
+            = check_box_tag 'data[old_ruby]', '1', @html.old_ruby
+            Ruby 1.9.3 syntax
+        .save-to-file-checkboxes
+          - if @html.output.present?
+            .html-save-to
+              = button_tag 'Save HTML file', name: 'data[save_as][html]', class: 'btn btn-info save-as-html'
+            .html-save-to
+              = button_tag 'Save HAML file', name: 'data[save_as][haml]', class: 'btn btn-info save-as-haml'
 

@@ -1,4 +1,4 @@
-.sql-container, .html-container, .js-container {
+.sql-container, .js-container {
     width: 80%;
     height: 100%;
     margin: auto;
@@ -10,4 +10,10 @@
     padding: 10px;
     float: left;
     margin-left: 20px;
+}
+
+.main-content {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 96px);
 }
