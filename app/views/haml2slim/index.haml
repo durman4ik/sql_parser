@@ -1,0 +1,27 @@
+.html-container
+  = form_tag haml2slim_path do
+    .converter-wrapper
+      .action-buttons
+        %span.btn.btn-success.html-convert-btn Submit
+      .html-section
+        = text_area_tag 'data[haml]', @haml.haml, id: 'haml_query', class: 'haml-query'
+
+      .haml-section
+        .result-container
+          = text_area_tag 'data[slim]', @haml.output, id: 'slim_query', class: 'slim-query'
+
+      .action-buttons
+        %span.btn.btn-success.html-convert-btn Submit
+
+    .options-wrapper
+      .options-title
+        %span Options
+
+      .options-section
+        .save-to-file-checkboxes
+          - if @haml.output.present?
+            .html-save-to
+              = button_tag 'Save HAML file', name: 'data[save_as][haml]', class: 'btn btn-info save-as-haml'
+            .html-save-to
+              = button_tag 'Save SLIM file', name: 'data[save_as][slim]', class: 'btn btn-info save-as-slim'
+

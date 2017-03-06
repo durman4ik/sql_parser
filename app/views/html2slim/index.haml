@@ -1,0 +1,31 @@
+.html-container
+  = form_tag html2slim_path do
+    .converter-wrapper
+      .action-buttons
+        %span.btn.btn-success.html-convert-btn Submit
+      .html-section
+        = text_area_tag 'data[html]', @html.html, id: 'html_query', class: 'html-query'
+
+      .haml-section
+        .result-container
+          = text_area_tag 'data[slim]', @html.output, id: 'slim_query', class: 'slim-query'
+
+      .action-buttons
+        %span.btn.btn-success.html-convert-btn Submit
+
+    .options-wrapper
+      .options-title
+        %span Options
+
+      .options-section
+        .old-ruby-checkbox
+          %label
+            = check_box_tag 'data[old_ruby]', '1', @html.old_ruby
+            Ruby 1.9.3 syntax
+        .save-to-file-checkboxes
+          - if @html.output.present?
+            .html-save-to
+              = button_tag 'Save HTML file', name: 'data[save_as][html]', class: 'btn btn-info save-as-html'
+            .html-save-to
+              = button_tag 'Save SLIM file', name: 'data[save_as][slim]', class: 'btn btn-info save-as-slim'
+
