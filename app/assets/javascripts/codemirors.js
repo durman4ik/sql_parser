@@ -2,7 +2,22 @@ $(document).ready(function(){
     var sqlInput    = document.getElementById('sql_query');
     var sqlOutput   = document.getElementById('sql_result');
     var htmlInput   = document.getElementById('html_query');
-    var htmlOutput  = document.getElementById('html_result');
+    var slimInput   = document.getElementById('slim_query');
+    var hamlInput  = document.getElementById('haml_query');
+
+    if (slimInput) {
+        CodeMirror.fromTextArea(slimInput, {
+            mode: 'application/x-slim',
+            indentWithTabs: false,
+            smartIndent: false,
+            lineNumbers: false,
+            theme: 'ttcn',
+            matchBrackets : false,
+            autofocus: false,
+            scrollbarStyle: null,
+            extraKeys: { "Ctrl-Space": "autocomplete" }
+        });
+    }
 
     if(sqlInput) {
         CodeMirror.fromTextArea(sqlInput, {
@@ -46,12 +61,13 @@ $(document).ready(function(){
         CodeMirror.fromTextArea(htmlInput, {
             mode: mixedMode,
             theme: 'ttcn',
-            selectionPointer: true
+            selectionPointer: true,
+            extraKeys: { "Ctrl-Space": "autocomplete" }
         });
     }
 
-    if (htmlOutput) {
-        CodeMirror.fromTextArea(htmlOutput, {
+    if (hamlInput) {
+        CodeMirror.fromTextArea(hamlInput, {
             mode: 'text/x-haml',
             indentWithTabs: false,
             smartIndent: false,
@@ -59,7 +75,8 @@ $(document).ready(function(){
             theme: 'ttcn',
             matchBrackets : false,
             autofocus: false,
-            scrollbarStyle: null
+            scrollbarStyle: null,
+            extraKeys: { "Ctrl-Space": "autocomplete" }
         });
     }
 });

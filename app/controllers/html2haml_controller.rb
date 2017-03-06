@@ -1,4 +1,4 @@
-class HtmlController < ApplicationController
+class Html2hamlController < ApplicationController
 
   def index
     @page_title = 'Html2Haml Converter'
@@ -19,7 +19,7 @@ class HtmlController < ApplicationController
   private
 
   def save_file
-    if html_params[:save_as][:html]
+    if html_params[:save_as][:html2haml]
       send_file_to_user(@html.html, 'text/html', 'file_name.html')
     else
       send_file_to_user(@html.haml, 'text/haml', 'file_name.html.haml')

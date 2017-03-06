@@ -21,6 +21,8 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'devise'
 gem 'haml-rails'
+gem 'haml2slim'
+gem 'html2slim'
 gem 'metamagic'
 
 group :development, :test do

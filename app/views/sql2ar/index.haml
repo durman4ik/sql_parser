@@ -1,6 +1,6 @@
 .sql-container
   .first-section
-    = form_tag convert_sql_path do
+    = form_tag sql2ar_path do
       = text_area_tag 'sql[query]', @sql.query, size: '100x20'
       .submit-button
         = submit_tag 'Convert To ActiveRecord', class: 'btn btn-success'

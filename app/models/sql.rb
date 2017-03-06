@@ -42,8 +42,10 @@ class Sql
 
   def process_sql
     check_semicolon!
-    parse! unless self.error.present?
-    self.validate_select!
+    unless self.error.present?
+      parse!
+      self.validate_select!
+    end
   end
 
   def process_migration

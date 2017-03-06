@@ -17,10 +17,12 @@
     #sidenav.sidenav
       %a.closebtn{href: 'javascript:void(0)', onclick: 'closeNav()'} &times;
       %li{ class: active_class?(root_path) }= link_to 'Home', root_path, class: 'btn'
-      %li{ class: active_class?(html_path) }= link_to 'Html to Haml', html_path, class: 'btn'
-      %li{ class: active_class?(coffee_path) }= link_to 'JS to Coffee', coffee_path, class: 'btn'
-      %li{ class: active_class?(yopta_path) }= link_to 'ЁптаScript to JS', yopta_path, class: 'btn'
-      %li{ class: active_class?(sql_path) }= link_to 'Sql to Active Record', sql_path, class: 'btn'
+      %li{ class: active_class?(html2haml_path) }= link_to 'Html to Haml', html2haml_path, class: 'btn'
+      %li{ class: active_class?(html2slim_path) }= link_to 'Html to Slim', html2slim_path, class: 'btn'
+      %li{ class: active_class?(haml2slim_path) }= link_to 'Haml to Slim', haml2slim_path, class: 'btn'
+      %li{ class: active_class?(js2coffee_path) }= link_to 'JS to Coffee', js2coffee_path, class: 'btn'
+      %li{ class: active_class?(js2yopta_path) }= link_to 'ЙоптаScript to JS', js2yopta_path, class: 'btn'
+      %li{ class: active_class?(sql2ar_path) }= link_to 'Sql to Active Record', sql2ar_path, class: 'btn'
 
     #main-content.main-content
       = yield

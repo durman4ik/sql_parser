@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
 
-
-  get 'html-converter' => 'html#index', as: :html
-  get 'js-converter'   => 'js#coffee',   as: :coffee
-  get 'yopta-converter'   => 'js#yopta',   as: :yopta
-  get 'sql-converter'  => 'sql#index',  as: :sql
-
-  post 'sql-converter'  => 'sql#convert',  as: :convert_sql
-  post 'html-converter'  => 'html#create',  as: :convert_html
+  resources :html2haml, only: [:index, :create], path: 'html2haml'
+  resources :html2slim, only: [:index, :create], path: 'html2slim'
+  resources :haml2slim, only: [:index, :create], path: 'haml2slim'
+  resources :js2coffee, only: [:index, :create], path: 'js2coffee'
+  resources :js2yopta,  only: [:index, :create], path: 'js2yopta'
+  resources :sql2ar,    only: [:index, :create], path: 'sql2active-record'
 
   root 'home#index'
 

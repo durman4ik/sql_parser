@@ -1,12 +1,12 @@
-class SqlController < ApplicationController
-  before_action :set_sql_string, only: :convert
+class Sql2arController < ApplicationController
+  before_action :set_sql_string, only: :create
 
   def index
     @page_title = 'Sql2ActiveRecord Converter'
     @sql = Sql.new
   end
 
-  def convert
+  def create
     if @sql.migration?
       @sql.process_migration
     elsif @sql.query?

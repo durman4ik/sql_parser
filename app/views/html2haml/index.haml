@@ -1,5 +1,5 @@
 .html-container
-  = form_tag convert_html_path do
+  = form_tag html2haml_path do
     .converter-wrapper
       .action-buttons
         %span.btn.btn-success.html-convert-btn Submit
@@ -8,7 +8,7 @@
 
       .haml-section
         .result-container
-          = text_area_tag 'data[haml]', @html.output, id: 'html_result', class: 'haml-query', placeholder: 'HAML'
+          = text_area_tag 'data[haml]', @html.output, id: 'haml_query', class: 'haml-query', placeholder: 'HAML'
 
       .action-buttons
         %span.btn.btn-success.html-convert-btn Submit
